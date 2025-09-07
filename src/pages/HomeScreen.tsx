@@ -51,128 +51,169 @@ const HomeScreen = ({ onNavigate }: HomeScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Welcome Back!</h1>
-          <p className="text-muted-foreground">Stay safe during your journey</p>
-        </div>
-        <div className="relative">
-          <Bell className="w-6 h-6 text-muted-foreground" />
-          {alerts.length > 0 && (
-            <Badge className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center p-0 text-xs">
-              {alerts.length}
-            </Badge>
-          )}
+    <div className="min-h-screen travel-gradient-bg">
+      {/* Header with Gradient Background */}
+      <div className="relative overflow-hidden">
+        <div className="travel-gradient-ocean p-6 pb-12">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <h1 className="font-display text-3xl font-bold text-white animate-slide-up">Welcome Back!</h1>
+              <p className="text-white/80 text-lg">Stay safe during your journey</p>
+            </div>
+            <div className="relative animate-glow">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <Bell className="w-6 h-6 text-white" />
+              </div>
+              {alerts.length > 0 && (
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center shadow-large">
+                  <span className="text-xs font-bold text-white">{alerts.length}</span>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Floating Elements */}
+          <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full animate-float" />
+          <div className="absolute top-4 left-1/3 w-16 h-16 bg-white/5 rounded-full animate-float" style={{ animationDelay: '1s' }} />
         </div>
       </div>
 
-      {/* Safety Score Card */}
-      <Card className="bg-gradient-to-r from-card to-muted/20">
-        <CardHeader className="text-center">
-          <CardTitle className="flex items-center justify-center gap-2">
-            {getSafetyScoreIcon(safetyScore)}
-            Tourist Safety Score
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-center">
-          <div className={`text-6xl font-bold ${getSafetyScoreColor(safetyScore)} mb-2`}>
-            {safetyScore}
+      <div className="px-6 -mt-6 space-y-8 pb-6">
+        {/* Safety Score Card */}
+        <div className="travel-card-elevated animate-scale-in">
+          <div className="p-8 text-center">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              {getSafetyScoreIcon(safetyScore)}
+              <h2 className="font-display text-xl font-semibold text-foreground">Tourist Safety Score</h2>
+            </div>
+            
+            <div className="mb-6">
+              <div className={`text-7xl font-bold ${getSafetyScoreColor(safetyScore)} mb-3`}>
+                {safetyScore}
+              </div>
+              <p className="text-lg text-muted-foreground font-medium">
+                {safetyScore >= 80 ? "Excellent Safety Level" : 
+                 safetyScore >= 60 ? "Good Safety Level" : "Exercise Caution"}
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-center gap-3 p-4 bg-primary/5 rounded-xl border border-primary/20">
+              <div className="w-3 h-3 bg-success rounded-full animate-glow"></div>
+              <MapPin className="w-5 h-5 text-primary" />
+              <span className="text-primary font-medium">Live Location Tracking Active</span>
+            </div>
           </div>
-          <p className="text-muted-foreground">
-            {safetyScore >= 80 ? "Excellent Safety Level" : 
-             safetyScore >= 60 ? "Good Safety Level" : "Exercise Caution"}
-          </p>
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <MapPin className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              Location tracking: Active
-            </span>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-3 gap-4">
-        <Button
-          variant="destructive"
-          className="h-20 flex-col gap-2"
-          onClick={() => onNavigate('emergency')}
-        >
-          <Phone className="w-6 h-6" />
-          <span className="text-xs">Panic SOS</span>
-        </Button>
-        
-        <Button
-          variant="outline"
-          className="h-20 flex-col gap-2"
-          onClick={() => onNavigate('itinerary')}
-        >
-          <Calendar className="w-6 h-6" />
-          <span className="text-xs">Trip Itinerary</span>
-        </Button>
-        
-        <Button
-          variant="outline"
-          className="h-20 flex-col gap-2"
-          onClick={() => onNavigate('profile')}
-        >
-          <IdCard className="w-6 h-6" />
-          <span className="text-xs">My Digital ID</span>
-        </Button>
-      </div>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-3 gap-4">
+          <button
+            className="travel-card-elevated h-24 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-destructive to-destructive/80 text-white hover:shadow-large transition-all duration-300 hover:-translate-y-1"
+            onClick={() => onNavigate('emergency')}
+          >
+            <Phone className="w-7 h-7" />
+            <span className="text-sm font-semibold">Panic SOS</span>
+          </button>
+          
+          <button
+            className="travel-card-elevated h-24 flex flex-col items-center justify-center gap-3 hover-lift"
+            onClick={() => onNavigate('itinerary')}
+          >
+            <div className="w-10 h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-foreground">Trip Itinerary</span>
+          </button>
+          
+          <button
+            className="travel-card-elevated h-24 flex flex-col items-center justify-center gap-3 hover-lift"
+            onClick={() => onNavigate('profile')}
+          >
+            <div className="w-10 h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
+              <IdCard className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-foreground">My Digital ID</span>
+          </button>
+        </div>
 
-      {/* Alerts Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5" />
-            Recent Alerts
-          </CardTitle>
-          <CardDescription>Important safety notifications</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {alerts.length === 0 ? (
-            <p className="text-muted-foreground text-center py-4">
-              No alerts at the moment. Stay safe!
-            </p>
-          ) : (
-            alerts.map((alert) => (
-              <Alert key={alert.id} className={alert.type === 'warning' ? 'border-yellow-200' : ''}>
-                <AlertTriangle className="h-4 w-4" />
-                <AlertDescription>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">{alert.title}</p>
-                      <p className="text-sm">{alert.message}</p>
+        {/* Alerts Section */}
+        <div className="travel-card-elevated">
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-sunset rounded-lg flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-semibold text-foreground">Recent Alerts</h3>
+                <p className="text-muted-foreground">Important safety notifications</p>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              {alerts.length === 0 ? (
+                <div className="text-center py-8">
+                  <CheckCircle className="w-12 h-12 text-success mx-auto mb-3" />
+                  <p className="text-muted-foreground">No alerts at the moment. Stay safe!</p>
+                </div>
+              ) : (
+                alerts.map((alert) => (
+                  <div key={alert.id} className={`p-4 rounded-xl border-2 ${
+                    alert.type === 'warning' ? 'border-warning/30 bg-warning/5' : 'border-primary/30 bg-primary/5'
+                  }`}>
+                    <div className="flex justify-between items-start">
+                      <div className="flex gap-3">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                          alert.type === 'warning' ? 'bg-warning/20' : 'bg-primary/20'
+                        }`}>
+                          <AlertTriangle className={`w-4 h-4 ${
+                            alert.type === 'warning' ? 'text-warning' : 'text-primary'
+                          }`} />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground">{alert.title}</p>
+                          <p className="text-sm text-muted-foreground mt-1">{alert.message}</p>
+                        </div>
+                      </div>
+                      <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
+                        {alert.time}
+                      </span>
                     </div>
-                    <span className="text-xs text-muted-foreground">{alert.time}</span>
                   </div>
-                </AlertDescription>
-              </Alert>
-            ))
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Safety Tips */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="w-5 h-5" />
-            Safety Tips
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2 text-sm">
-            <p>• Keep your phone charged at all times</p>
-            <p>• Stay in well-lit, populated areas</p>
-            <p>• Share your location with family</p>
-            <p>• Follow local guidelines and advisories</p>
+                ))
+              )}
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Safety Tips */}
+        <div className="travel-card">
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-ocean rounded-lg flex items-center justify-center">
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-semibold text-foreground">Safety Tips</h3>
+                <p className="text-muted-foreground">Essential travel safety guidelines</p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {[
+                "Keep your phone charged at all times",
+                "Stay in well-lit, populated areas",
+                "Share your location with family",
+                "Follow local guidelines and advisories"
+              ].map((tip, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
+                  <span className="text-foreground">{tip}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -30,15 +30,30 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
 
   if (currentStep === 0) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-6 animate-fade-in">
+      <div className="min-h-screen travel-gradient-bg flex items-center justify-center overflow-hidden relative">
+        {/* Floating background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full animate-float" style={{ animationDelay: '0s' }}></div>
+          <div className="absolute top-40 right-20 w-16 h-16 bg-accent/10 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute bottom-32 left-20 w-12 h-12 bg-primary/5 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+        </div>
+        
+        <div className="text-center space-y-8 animate-scale-in z-10">
           <div className="relative">
-            <Globe className="w-24 h-24 text-primary mx-auto animate-pulse" />
-            <Shield className="w-8 h-8 text-accent absolute -top-2 -right-2" />
+            <div className="w-32 h-32 mx-auto mb-6 relative">
+              <Globe className="w-32 h-32 text-primary mx-auto animate-glow" />
+              <div className="absolute -top-3 -right-3 w-12 h-12 bg-gradient-travel rounded-full flex items-center justify-center shadow-ocean">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">SafeWander</h1>
-            <p className="text-muted-foreground text-lg">Tourist Safety & Digital ID</p>
+          <div className="space-y-4">
+            <h1 className="font-display text-6xl font-bold text-gradient-ocean mb-4">SafeWander</h1>
+            <p className="text-2xl text-muted-foreground font-medium">Tourist Safety & Digital ID</p>
+            <div className="flex items-center justify-center gap-2 text-primary/70">
+              <MapPin className="w-5 h-5" />
+              <span className="text-lg">Your trusted travel companion</span>
+            </div>
           </div>
         </div>
       </div>
@@ -47,88 +62,114 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
 
   if (currentStep === 1) {
     return (
-      <div className="min-h-screen bg-background p-6 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="flex items-center gap-2 justify-center">
-              <Globe className="w-6 h-6" />
-              Select Language
-            </CardTitle>
-            <CardDescription>Choose your preferred language</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+      <div className="min-h-screen travel-gradient-bg p-6 flex items-center justify-center">
+        <div className="travel-card-elevated w-full max-w-md animate-slide-up">
+          <div className="text-center p-8">
+            <div className="flex items-center gap-3 justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-travel rounded-xl flex items-center justify-center">
+                <Globe className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="font-display text-2xl font-semibold text-foreground">Select Language</h2>
+            </div>
+            <p className="text-muted-foreground mb-8">Choose your preferred language for the journey ahead</p>
+          </div>
+          
+          <div className="px-8 pb-8 space-y-3">
             {languages.map((lang) => (
-              <Button
+              <button
                 key={lang.code}
-                variant={selectedLanguage === lang.code ? "default" : "outline"}
-                className="w-full justify-start"
+                className={`w-full p-4 rounded-xl border-2 text-left font-medium transition-all duration-300 hover:shadow-medium ${
+                  selectedLanguage === lang.code
+                    ? 'border-primary bg-primary/5 text-primary shadow-ocean'
+                    : 'border-border hover:border-primary/50 hover:bg-primary/5'
+                }`}
                 onClick={() => setSelectedLanguage(lang.code)}
               >
                 {lang.name}
-              </Button>
+              </button>
             ))}
-            <Button 
-              className="w-full mt-6" 
+            <button 
+              className="w-full mt-8 travel-button-gradient h-14 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentStep(2)}
               disabled={!selectedLanguage}
             >
-              Continue
-            </Button>
-          </CardContent>
-        </Card>
+              Continue Your Journey
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-6 flex items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="flex items-center gap-2 justify-center">
-            <Shield className="w-6 h-6" />
-            Terms & Conditions
-          </CardTitle>
-          <CardDescription>Please review and accept to continue</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="bg-muted p-4 rounded-lg text-sm space-y-2 max-h-48 overflow-y-auto">
-            <p className="font-medium">SafeWander Tourist Safety App</p>
-            <p>By using this app, you agree to:</p>
-            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>Allow continuous location tracking during your trip</li>
-              <li>Share your digital ID with authorized tourism authorities</li>
-              <li>Receive safety alerts and emergency notifications</li>
-              <li>Emergency services access to your location during SOS</li>
-              <li>Data processing for safety analytics and improvements</li>
-            </ul>
-            <p className="font-medium mt-3">Privacy & Data Protection:</p>
-            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>Your data is encrypted and stored securely on blockchain</li>
-              <li>Location data is only used for safety purposes</li>
-              <li>You can request data deletion after your trip</li>
-            </ul>
+    <div className="min-h-screen travel-gradient-bg p-6 flex items-center justify-center">
+      <div className="travel-card-elevated w-full max-w-md animate-scale-in">
+        <div className="text-center p-8">
+          <div className="flex items-center gap-3 justify-center mb-4">
+            <div className="w-12 h-12 bg-gradient-travel rounded-xl flex items-center justify-center">
+              <Shield className="w-6 h-6 text-white" />
+            </div>
+            <h2 className="font-display text-2xl font-semibold text-foreground">Terms & Conditions</h2>
+          </div>
+          <p className="text-muted-foreground mb-8">Please review and accept to continue your safe journey</p>
+        </div>
+        
+        <div className="px-8 pb-8 space-y-6">
+          <div className="travel-card p-6 max-h-64 overflow-y-auto text-sm space-y-4">
+            <div className="space-y-3">
+              <h3 className="font-display text-lg font-semibold text-primary">SafeWander Tourist Safety App</h3>
+              <p className="font-medium text-foreground">By using this app, you agree to:</p>
+              <ul className="list-disc list-inside space-y-2 text-muted-foreground pl-2">
+                <li>Allow continuous location tracking during your trip</li>
+                <li>Share your digital ID with authorized tourism authorities</li>
+                <li>Receive safety alerts and emergency notifications</li>
+                <li>Emergency services access to your location during SOS</li>
+                <li>Data processing for safety analytics and improvements</li>
+              </ul>
+              
+              <h4 className="font-display text-base font-semibold text-primary mt-6">Privacy & Data Protection:</h4>
+              <ul className="list-disc list-inside space-y-2 text-muted-foreground pl-2">
+                <li>Your data is encrypted and stored securely on blockchain</li>
+                <li>Location data is only used for safety purposes</li>
+                <li>You can request data deletion after your trip</li>
+              </ul>
+            </div>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="terms" 
-              checked={termsAccepted}
-              onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
-            />
-            <label htmlFor="terms" className="text-sm text-foreground">
-              I accept the Terms & Conditions (mandatory)
-            </label>
-          </div>
+          <label className="flex items-start space-x-3 cursor-pointer group">
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="sr-only"
+              />
+              <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all duration-300 ${
+                termsAccepted 
+                  ? 'bg-primary border-primary shadow-ocean' 
+                  : 'border-border group-hover:border-primary/50'
+              }`}>
+                {termsAccepted && (
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                )}
+              </div>
+            </div>
+            <span className="text-sm text-foreground leading-relaxed">
+              I accept the Terms & Conditions and understand the safety features <span className="text-destructive">*</span>
+            </span>
+          </label>
           
-          <Button 
-            className="w-full" 
+          <button 
+            className="w-full travel-button-gradient h-14 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onComplete}
             disabled={!termsAccepted}
           >
-            Accept & Continue
-          </Button>
-        </CardContent>
-      </Card>
+            Accept & Start Journey
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
