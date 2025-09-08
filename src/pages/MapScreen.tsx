@@ -115,6 +115,7 @@ const MapScreen = () => {
         </div>
       </div>
 
+      <div className="px-6 pb-6 space-y-6">
         {/* Current Location Info */}
         <div className="travel-card-elevated">
           <div className="p-6">
@@ -219,111 +220,6 @@ const MapScreen = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Navigation className="w-5 h-5" />
-              Current Location
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">Connaught Place, New Delhi</p>
-                <p className="text-sm text-muted-foreground">
-                  Lat: {currentLocation.lat}, Lng: {currentLocation.lng}
-                </p>
-              </div>
-              <Badge variant="outline" className="text-green-600 border-green-600">
-                Safe Zone
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Zone Alerts */}
-        {alerts.length > 0 && (
-          <Card className="border-yellow-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg text-yellow-700">
-                <AlertTriangle className="w-5 h-5" />
-                Zone Alerts
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {alerts.map((alert) => (
-                <div key={alert.id} className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">{alert.message}</p>
-                    <p className="text-sm text-muted-foreground">{alert.distance}</p>
-                  </div>
-                  <Badge variant="destructive">Warning</Badge>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Legend */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Map Legend</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span className="text-sm">Your Location</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                  <Shield className="w-2 h-2 text-white" />
-                </div>
-                <span className="text-sm">Safe Zones</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
-                  <AlertTriangle className="w-2 h-2 text-white" />
-                </div>
-                <span className="text-sm">Restricted Areas</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                <span className="text-sm">Caution Zones</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Nearby Safe Places */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Nearby Safe Places</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {safeZones.map((zone) => (
-                <div key={zone.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-4 h-4 text-green-600" />
-                    <div>
-                      <p className="font-medium">{zone.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {Math.floor(Math.random() * 500 + 100)}m away
-                      </p>
-                    </div>
-                  </div>
-                  <Button size="sm" variant="outline">
-                    Navigate
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
