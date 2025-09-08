@@ -1,8 +1,67 @@
-# Welcome to your Lovable project
+# Safe Wanderer - Tourist Guide & Safety App
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/d9363552-eea0-41a1-812e-d157cec578c0
+
+## Backend Architecture
+
+The backend is built with Node.js, Express, and MongoDB with the following structure:
+
+```
+backend/
+├── config/
+│   ├── database.js          # MongoDB connection configuration
+│   ├── blockchain.js        # Ethereum Sepolia configuration
+│   └── apis.js             # API keys and configurations
+├── models/
+│   ├── User.js             # User schema with blockchain wallet
+│   ├── Location.js         # Location tracking schema
+│   ├── Alert.js            # Alert and SOS schema
+│   ├── SafeZone.js         # Safe zones schema
+│   └── EmergencyContact.js # Emergency contacts schema
+├── routes/
+│   ├── auth.js             # Authentication routes
+│   ├── location.js         # Location tracking and geo-fencing
+│   ├── alerts.js           # Alert management and SOS
+│   ├── police.js           # Police dashboard routes
+│   └── blockchain.js       # Blockchain verification routes
+├── services/
+│   ├── smsService.js       # SMS gateway integration
+│   ├── mapService.js       # MyMapIndia API integration
+│   ├── blockchainService.js # Ethereum integration
+│   ├── anomalyDetection.js # Gemini API anomaly detection
+│   ├── anomalyML.js        # Custom ML model alternative
+│   └── eFireService.js     # E-FIR generation (Python integration)
+├── middleware/
+│   ├── auth.js             # JWT authentication middleware
+│   ├── geolocation.js      # Location validation middleware
+│   └── rateLimit.js        # API rate limiting
+├── utils/
+│   ├── logger.js           # Logging utility
+│   ├── validators.js       # Input validation
+│   └── constants.js        # App constants
+├── python/
+│   └── efir_generator.py   # Python script for E-FIR generation
+├── socket/
+│   └── socketServer.js     # Real-time WebSocket server
+├── package.json            # Backend dependencies
+└── server.js              # Main server file
+```
+
+## Frontend Structure
+
+```
+src/
+├── pages/
+│   ├── police/            # Police Dashboard
+│   │   ├── PoliceDashboard.tsx
+│   │   ├── AlertsView.tsx
+│   │   ├── UserTracking.tsx
+│   │   └── EfirManagement.tsx
+│   └── ... (existing tourist app pages)
+└── ...
+```
 
 ## How can I edit this code?
 
