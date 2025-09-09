@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Globe, Shield, MapPin } from "lucide-react";
 
 interface SplashScreenProps {
@@ -89,20 +90,28 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             <p className="text-muted-foreground mb-8">Choose your preferred language for the journey ahead</p>
           </div>
           
-          <div className="px-8 pb-8 space-y-3">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                className={`w-full p-4 rounded-xl border-2 text-left font-medium transition-all duration-300 hover:shadow-medium ${
-                  selectedLanguage === lang.code
-                    ? 'border-primary bg-primary/5 text-primary shadow-ocean'
-                    : 'border-border hover:border-primary/50 hover:bg-primary/5'
-                }`}
-                onClick={() => setSelectedLanguage(lang.code)}
-              >
-                {lang.name}
-              </button>
-            ))}
+          <div className="px-8 pb-8 space-y-6">
+            <div className="space-y-3">
+              <label className="block text-sm font-semibold text-foreground mb-3">
+                Choose your preferred language
+              </label>
+              <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+                <SelectTrigger className="w-full h-14 text-lg travel-input">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent className="max-h-64 bg-background border border-border shadow-lg">
+                  {languages.map((lang) => (
+                    <SelectItem 
+                      key={lang.code} 
+                      value={lang.code}
+                      className="text-base py-3 hover:bg-primary/5 focus:bg-primary/5"
+                    >
+                      {lang.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <button 
               className="w-full mt-8 travel-button-gradient h-14 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentStep(2)}
