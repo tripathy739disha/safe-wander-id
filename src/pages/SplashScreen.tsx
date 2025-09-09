@@ -15,10 +15,25 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
 
   const languages = [
     { code: "en", name: "English" },
+    { code: "zh", name: "中文 (Chinese)" },
     { code: "hi", name: "हिंदी (Hindi)" },
+    { code: "es", name: "Español (Spanish)" },
+    { code: "fr", name: "Français (French)" },
+    { code: "ar", name: "العربية (Arabic)" },
     { code: "bn", name: "বাংলা (Bengali)" },
+    { code: "pt", name: "Português (Portuguese)" },
+    { code: "ru", name: "Русский (Russian)" },
+    { code: "ja", name: "日本語 (Japanese)" },
+    { code: "de", name: "Deutsch (German)" },
+    { code: "ko", name: "한국어 (Korean)" },
     { code: "te", name: "తెలుగు (Telugu)" },
+    { code: "tr", name: "Türkçe (Turkish)" },
+    { code: "it", name: "Italiano (Italian)" },
+    { code: "th", name: "ไทย (Thai)" },
+    { code: "nl", name: "Nederlands (Dutch)" },
+    { code: "pl", name: "Polski (Polish)" },
     { code: "mr", name: "मराठी (Marathi)" },
+    { code: "sv", name: "Svenska (Swedish)" }
   ];
 
   useEffect(() => {
