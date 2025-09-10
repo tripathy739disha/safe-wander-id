@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Home, Map, Calendar, IdCard, Settings } from "lucide-react";
+import { Home, Map, Calendar, IdCard, Settings, MapPin } from "lucide-react";
 
 interface BottomNavigationProps {
   activeTab: string;
@@ -11,13 +11,14 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
     { id: 'home', label: 'Home', icon: Home },
     { id: 'map', label: 'Map', icon: Map },
     { id: 'itinerary', label: 'Itinerary', icon: Calendar },
+    { id: 'services', label: 'Services', icon: MapPin },
     { id: 'profile', label: 'Profile', icon: IdCard },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border">
-      <div className="grid grid-cols-5 h-16">
+      <div className="grid grid-cols-6 h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;

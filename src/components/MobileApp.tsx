@@ -7,10 +7,11 @@ import ItineraryScreen from "@/pages/ItineraryScreen";
 import EmergencyScreen from "@/pages/EmergencyScreen";
 import ProfileScreen from "@/pages/ProfileScreen";
 import SettingsScreen from "@/pages/SettingsScreen";
+import NearbyServicesScreen from "@/pages/NearbyServicesScreen";
 import BottomNavigation from "@/components/BottomNavigation";
 
 type AppState = 'splash' | 'login' | 'app';
-type ActiveTab = 'home' | 'map' | 'itinerary' | 'profile' | 'settings' | 'emergency';
+type ActiveTab = 'home' | 'map' | 'itinerary' | 'services' | 'profile' | 'settings' | 'emergency';
 
 const MobileApp = () => {
   const [appState, setAppState] = useState<AppState>('splash');
@@ -44,6 +45,8 @@ const MobileApp = () => {
         return <MapScreen />;
       case 'itinerary':
         return <ItineraryScreen />;
+      case 'services':
+        return <NearbyServicesScreen />;
       case 'profile':
         return <ProfileScreen />;
       case 'settings':
