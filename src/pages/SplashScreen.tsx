@@ -79,53 +79,61 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
   if (currentStep === 1) {
     return (
       <div className="min-h-screen travel-gradient-bg p-4 sm:p-6 flex items-center justify-center">
-        <div className="travel-card-elevated w-full max-w-lg animate-slide-up">
-          <div className="text-center p-8">
-            <div className="flex items-center gap-3 justify-center mb-4">
-              <div className="w-12 h-12 bg-gradient-travel rounded-xl flex items-center justify-center">
-                <Globe className="w-6 h-6 text-white" />
-              </div>
-              <h2 className="font-display text-2xl font-semibold text-foreground">Select Language</h2>
-            </div>
-            <p className="text-muted-foreground mb-8">Choose your preferred language for the journey ahead</p>
-          </div>
+        <div className="travel-card-elevated w-full max-w-4xl animate-slide-up">
           
-          <div className="px-4 sm:px-8 pb-8 space-y-6">
-            {/* About Section */}
-            <div className="travel-card p-4 sm:p-6 space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-travel rounded-lg flex items-center justify-center">
-                  <Shield className="w-4 h-4 text-white" />
+          {/* About SafeWander Section */}
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="text-center mb-8">
+              <div className="flex items-center gap-3 justify-center mb-4">
+                <div className="w-12 h-12 bg-gradient-travel rounded-xl flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-display text-lg sm:text-xl font-semibold text-foreground">About SafeWander</h3>
-              </div>
-              <div className="space-y-3 text-sm sm:text-base text-muted-foreground">
-                <p>SafeWander is your trusted digital companion for safe and secure travel experiences.</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="text-xs sm:text-sm">Real-time safety monitoring</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="text-xs sm:text-sm">Location-based alerts</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="text-xs sm:text-sm">Multi-language support</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="text-xs sm:text-sm">Secure digital identity</span>
-                  </div>
-                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-semibold text-foreground">About SafeWander</h2>
               </div>
             </div>
+            
+            <div className="travel-card p-6 sm:p-8 space-y-6">
+              <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p>
+                  Safe Wander is a smart safety companion application designed to make travel secure, stress-free, and enjoyable for tourists, solo travelers, and everyday commuters. The app leverages real-time data, intelligent navigation, and community-driven insights to provide users with the safest routes and timely alerts about potential risks in their surroundings.
+                </p>
+                
+                <p>
+                  With Safe Wander, users can explore new places confidently while staying connected to safety resources. The app features an interactive map that highlights safe routes, nearby help centers, and trusted facilities such as hospitals, police stations, and emergency services. It also provides instant safety alerts in case of suspicious activities, unsafe zones, or natural hazards.
+                </p>
+                
+                <p>
+                  To enhance traveler confidence, Safe Wander includes an emergency SOS feature that instantly shares a user's live location with pre-selected emergency contacts. For added inclusivity, the app supports multi-language options, ensuring accessibility for international tourists. Additionally, users can discover local insights and recommendations about food, culture, and attractions, combining safety with exploration.
+                </p>
+                
+                <p>
+                  Safe Wander is designed with privacy and security at its core. Personal data is protected with advanced encryption, and users have full control over what they share. The app also offers an optional admin dashboard for authorized authorities to monitor public safety trends without exposing private user information.
+                </p>
+                
+                <p>
+                  Whether you are exploring a new city, traveling solo, or commuting late at night, Safe Wander ensures you are never truly alone. It empowers you with the right tools, alerts, and resources to make every journey safe and memorable.
+                </p>
+                
+                <p className="font-semibold text-primary text-center text-lg">
+                  Safe Wander – because safety should always travel with you.
+                </p>
+              </div>
+            </div>
+          </div>
 
-            <div className="space-y-3">
-              <label className="block text-sm font-semibold text-foreground mb-3">
-                Choose your preferred language
-              </label>
+          {/* Language Selection Section */}
+          <div className="px-6 sm:px-8 pb-8 space-y-6">
+            <div className="text-center">
+              <div className="flex items-center gap-3 justify-center mb-4">
+                <div className="w-10 h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Select Your Language</h3>
+              </div>
+              <p className="text-muted-foreground mb-6">Choose your preferred language for the journey ahead</p>
+            </div>
+            
+            <div className="max-w-md mx-auto space-y-4">
               <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
                 <SelectTrigger className="w-full h-12 sm:h-14 text-base sm:text-lg travel-input">
                   <SelectValue placeholder="Select language" />
@@ -142,14 +150,15 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                   ))}
                 </SelectContent>
               </Select>
+              
+              <button 
+                className="w-full mt-6 travel-button-gradient h-12 sm:h-14 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => setCurrentStep(2)}
+                disabled={!selectedLanguage}
+              >
+                Continue Your Journey
+              </button>
             </div>
-            <button 
-              className="w-full mt-6 sm:mt-8 travel-button-gradient h-12 sm:h-14 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={() => setCurrentStep(2)}
-              disabled={!selectedLanguage}
-            >
-              Continue Your Journey
-            </button>
           </div>
         </div>
       </div>
