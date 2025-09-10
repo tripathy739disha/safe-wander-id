@@ -78,8 +78,8 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
 
   if (currentStep === 1) {
     return (
-      <div className="min-h-screen travel-gradient-bg p-6 flex items-center justify-center">
-        <div className="travel-card-elevated w-full max-w-md animate-slide-up">
+      <div className="min-h-screen travel-gradient-bg p-4 sm:p-6 flex items-center justify-center">
+        <div className="travel-card-elevated w-full max-w-lg animate-slide-up">
           <div className="text-center p-8">
             <div className="flex items-center gap-3 justify-center mb-4">
               <div className="w-12 h-12 bg-gradient-travel rounded-xl flex items-center justify-center">
@@ -90,13 +90,44 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             <p className="text-muted-foreground mb-8">Choose your preferred language for the journey ahead</p>
           </div>
           
-          <div className="px-8 pb-8 space-y-6">
+          <div className="px-4 sm:px-8 pb-8 space-y-6">
+            {/* About Section */}
+            <div className="travel-card p-4 sm:p-6 space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-gradient-travel rounded-lg flex items-center justify-center">
+                  <Shield className="w-4 h-4 text-white" />
+                </div>
+                <h3 className="font-display text-lg sm:text-xl font-semibold text-foreground">About SafeWander</h3>
+              </div>
+              <div className="space-y-3 text-sm sm:text-base text-muted-foreground">
+                <p>SafeWander is your trusted digital companion for safe and secure travel experiences.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-xs sm:text-sm">Real-time safety monitoring</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-xs sm:text-sm">Location-based alerts</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-xs sm:text-sm">Multi-language support</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-xs sm:text-sm">Secure digital identity</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-3">
               <label className="block text-sm font-semibold text-foreground mb-3">
                 Choose your preferred language
               </label>
               <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-                <SelectTrigger className="w-full h-14 text-lg travel-input">
+                <SelectTrigger className="w-full h-12 sm:h-14 text-base sm:text-lg travel-input">
                   <SelectValue placeholder="Select language" />
                 </SelectTrigger>
                 <SelectContent className="max-h-64 bg-background border border-border shadow-lg">
@@ -104,7 +135,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                     <SelectItem 
                       key={lang.code} 
                       value={lang.code}
-                      className="text-base py-3 hover:bg-primary/5 focus:bg-primary/5"
+                      className="text-sm sm:text-base py-3 hover:bg-primary/5 focus:bg-primary/5"
                     >
                       {lang.name}
                     </SelectItem>
@@ -113,7 +144,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
               </Select>
             </div>
             <button 
-              className="w-full mt-8 travel-button-gradient h-14 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full mt-6 sm:mt-8 travel-button-gradient h-12 sm:h-14 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentStep(2)}
               disabled={!selectedLanguage}
             >
@@ -126,8 +157,8 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
   }
 
   return (
-    <div className="min-h-screen travel-gradient-bg p-6 flex items-center justify-center">
-      <div className="travel-card-elevated w-full max-w-md animate-scale-in">
+    <div className="min-h-screen travel-gradient-bg p-4 sm:p-6 flex items-center justify-center">
+      <div className="travel-card-elevated w-full max-w-lg animate-scale-in">
         <div className="text-center p-8">
           <div className="flex items-center gap-3 justify-center mb-4">
             <div className="w-12 h-12 bg-gradient-travel rounded-xl flex items-center justify-center">
@@ -138,8 +169,8 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
           <p className="text-muted-foreground mb-8">Please review and accept to continue your safe journey</p>
         </div>
         
-        <div className="px-8 pb-8 space-y-6">
-          <div className="travel-card p-6 max-h-64 overflow-y-auto text-sm space-y-4">
+        <div className="px-4 sm:px-8 pb-8 space-y-6">
+          <div className="travel-card p-4 sm:p-6 max-h-64 overflow-y-auto text-xs sm:text-sm space-y-4">
             <div className="space-y-3">
               <h3 className="font-display text-lg font-semibold text-primary">SafeWander Tourist Safety App</h3>
               <p className="font-medium text-foreground">By using this app, you agree to:</p>
@@ -186,7 +217,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
           </label>
           
           <button 
-            className="w-full travel-button-gradient h-14 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full travel-button-gradient h-12 sm:h-14 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onComplete}
             disabled={!termsAccepted}
           >

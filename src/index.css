@@ -10,15 +10,15 @@ All colors MUST be HSL. Travel theme with ocean blues, sunset warmth, and nature
 
 @layer base {
   :root {
-    /* Core Travel Palette - Ocean to Sky */
-    --background: 210 25% 98%;
-    --foreground: 215 25% 15%;
+    /* Core Travel Palette - Ocean to Sky (Slightly Darker) */
+    --background: 210 25% 95%;
+    --foreground: 215 25% 12%;
 
-    --card: 210 40% 99%;
-    --card-foreground: 215 25% 15%;
+    --card: 210 40% 97%;
+    --card-foreground: 215 25% 12%;
 
-    --popover: 210 40% 99%;
-    --popover-foreground: 215 25% 15%;
+    --popover: 210 40% 97%;
+    --popover-foreground: 215 25% 12%;
 
     /* Ocean Blue Primary - Trust & Exploration */
     --primary: 210 85% 45%;
@@ -26,12 +26,12 @@ All colors MUST be HSL. Travel theme with ocean blues, sunset warmth, and nature
     --primary-glow: 210 100% 65%;
 
     /* Soft Sky Secondary - Calm & Professional */
-    --secondary: 210 30% 94%;
-    --secondary-foreground: 215 25% 25%;
+    --secondary: 210 30% 90%;
+    --secondary-foreground: 215 25% 20%;
 
     /* Muted Clouds - Subtle Elegance */
-    --muted: 210 25% 96%;
-    --muted-foreground: 215 15% 50%;
+    --muted: 210 25% 92%;
+    --muted-foreground: 215 15% 45%;
 
     /* Sunset Accent - Warmth & Invitation */
     --accent: 25 90% 65%;
@@ -51,8 +51,8 @@ All colors MUST be HSL. Travel theme with ocean blues, sunset warmth, and nature
     --destructive-foreground: 210 40% 98%;
 
     /* Elegant Borders & Inputs */
-    --border: 210 20% 88%;
-    --input: 210 25% 92%;
+    --border: 210 20% 85%;
+    --input: 210 25% 88%;
     --ring: 210 85% 45%;
 
     --radius: 0.75rem;

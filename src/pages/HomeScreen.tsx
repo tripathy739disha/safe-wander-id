@@ -12,14 +12,18 @@ import {
   MapPin,
   Bell,
   CheckCircle,
-  XCircle
+  XCircle,
+  Sun,
+  Moon
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface HomeScreenProps {
   onNavigate: (page: string) => void;
 }
 
 const HomeScreen = ({ onNavigate }: HomeScreenProps) => {
+  const { theme, setTheme } = useTheme();
   const [safetyScore] = useState(85);
   const [alerts] = useState([
     {
@@ -54,21 +58,36 @@ const HomeScreen = ({ onNavigate }: HomeScreenProps) => {
     <div className="min-h-screen travel-gradient-bg">
       {/* Header with Gradient Background */}
       <div className="relative overflow-hidden">
-        <div className="travel-gradient-ocean p-6 pb-12">
+        <div className="travel-gradient-ocean p-4 sm:p-6 pb-12">
           <div className="flex items-center justify-between">
             <div className="space-y-2">
-              <h1 className="font-display text-3xl font-bold text-white animate-slide-up">Welcome Back!</h1>
-              <p className="text-white/80 text-lg">Stay safe during your journey</p>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold text-white animate-slide-up">Welcome Back!</h1>
+              <p className="text-white/80 text-base sm:text-lg">Stay safe during your journey</p>
             </div>
-            <div className="relative animate-glow">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <Bell className="w-6 h-6 text-white" />
-              </div>
-              {alerts.length > 0 && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center shadow-large">
-                  <span className="text-xs font-bold text-white">{alerts.length}</span>
+            <div className="flex items-center gap-3">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-5 h-5 text-white" />
+                ) : (
+                  <Moon className="w-5 h-5 text-white" />
+                )}
+              </button>
+              
+              <div className="relative animate-glow">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-              )}
+                {alerts.length > 0 && (
+                  <div className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-accent rounded-full flex items-center justify-center shadow-large">
+                    <span className="text-xs font-bold text-white">{alerts.length}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           
@@ -78,67 +97,67 @@ const HomeScreen = ({ onNavigate }: HomeScreenProps) => {
         </div>
       </div>
 
-      <div className="px-6 -mt-6 space-y-8 pb-6">
+      <div className="px-4 sm:px-6 -mt-6 space-y-6 sm:space-y-8 pb-6">
         {/* Safety Score Card */}
         <div className="travel-card-elevated animate-scale-in">
-          <div className="p-8 text-center">
+          <div className="p-6 sm:p-8 text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               {getSafetyScoreIcon(safetyScore)}
-              <h2 className="font-display text-xl font-semibold text-foreground">Tourist Safety Score</h2>
+              <h2 className="font-display text-lg sm:text-xl font-semibold text-foreground">Tourist Safety Score</h2>
             </div>
             
             <div className="mb-6">
-              <div className={`text-7xl font-bold ${getSafetyScoreColor(safetyScore)} mb-3`}>
+              <div className={`text-5xl sm:text-7xl font-bold ${getSafetyScoreColor(safetyScore)} mb-3`}>
                 {safetyScore}
               </div>
-              <p className="text-lg text-muted-foreground font-medium">
+              <p className="text-base sm:text-lg text-muted-foreground font-medium">
                 {safetyScore >= 80 ? "Excellent Safety Level" : 
                  safetyScore >= 60 ? "Good Safety Level" : "Exercise Caution"}
               </p>
             </div>
             
-            <div className="flex items-center justify-center gap-3 p-4 bg-primary/5 rounded-xl border border-primary/20">
+            <div className="flex items-center justify-center gap-3 p-3 sm:p-4 bg-primary/5 rounded-xl border border-primary/20">
               <div className="w-3 h-3 bg-success rounded-full animate-glow"></div>
-              <MapPin className="w-5 h-5 text-primary" />
-              <span className="text-primary font-medium">Live Location Tracking Active</span>
+              <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
+              <span className="text-primary font-medium text-sm sm:text-base">Live Location Tracking Active</span>
             </div>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <button
-            className="travel-card-elevated h-24 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-destructive to-destructive/80 text-white hover:shadow-large transition-all duration-300 hover:-translate-y-1"
+            className="travel-card-elevated h-20 sm:h-24 flex flex-col items-center justify-center gap-2 sm:gap-3 bg-gradient-to-br from-destructive to-destructive/80 text-white hover:shadow-large transition-all duration-300 hover:-translate-y-1"
             onClick={() => onNavigate('emergency')}
           >
-            <Phone className="w-7 h-7" />
-            <span className="text-sm font-semibold">Panic SOS</span>
+            <Phone className="w-6 sm:w-7 h-6 sm:h-7" />
+            <span className="text-xs sm:text-sm font-semibold">Panic SOS</span>
           </button>
           
           <button
-            className="travel-card-elevated h-24 flex flex-col items-center justify-center gap-3 hover-lift"
+            className="travel-card-elevated h-20 sm:h-24 flex flex-col items-center justify-center gap-2 sm:gap-3 hover-lift"
             onClick={() => onNavigate('itinerary')}
           >
-            <div className="w-10 h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-white" />
+            <div className="w-8 sm:w-10 h-8 sm:h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
+              <Calendar className="w-4 sm:w-5 h-4 sm:h-5 text-white" />
             </div>
-            <span className="text-sm font-semibold text-foreground">Trip Itinerary</span>
+            <span className="text-xs sm:text-sm font-semibold text-foreground">Trip Itinerary</span>
           </button>
           
           <button
-            className="travel-card-elevated h-24 flex flex-col items-center justify-center gap-3 hover-lift"
+            className="travel-card-elevated h-20 sm:h-24 flex flex-col items-center justify-center gap-2 sm:gap-3 hover-lift"
             onClick={() => onNavigate('profile')}
           >
-            <div className="w-10 h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
-              <IdCard className="w-5 h-5 text-white" />
+            <div className="w-8 sm:w-10 h-8 sm:h-10 bg-gradient-travel rounded-lg flex items-center justify-center">
+              <IdCard className="w-4 sm:w-5 h-4 sm:h-5 text-white" />
             </div>
-            <span className="text-sm font-semibold text-foreground">My Digital ID</span>
+            <span className="text-xs sm:text-sm font-semibold text-foreground">My Digital ID</span>
           </button>
         </div>
 
         {/* Alerts Section */}
         <div className="travel-card-elevated">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-sunset rounded-lg flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-white" />
@@ -187,7 +206,7 @@ const HomeScreen = ({ onNavigate }: HomeScreenProps) => {
 
         {/* Safety Tips */}
         <div className="travel-card">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-ocean rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-white" />
