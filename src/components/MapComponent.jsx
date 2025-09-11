@@ -83,6 +83,45 @@ const HeatmapLayer = ({ heatmaps }) => {
   return null;
 };
 
+// Component to handle theme-aware tile layer
+const ThemeAwareTileLayer = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check for dark mode
+    const checkDarkMode = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  if (isDark) {
+    return (
+      <TileLayer
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+      />
+    );
+  }
+
+  return (
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    />
+  );
+};
+
 // Component to handle routing
 const RoutingControl = ({ routeStart, routeEnd }) => {
   const map = useMap();
@@ -161,17 +200,25 @@ const MapComponent = ({
   }, [latitude, longitude]);
 
   return (
-    <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg border border-border">
+    <div className="w-full h-full overflow-hidden" style={{ borderRadius: '16px' }}>
       <MapContainer
         center={mapCenter}
         zoom={13}
-        style={{ height: '100%', width: '100%' }}
+        zoomControl={true}
+        style={{ 
+          height: '100%', 
+          width: '100%', 
+          borderRadius: '16px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)'
+        }}
         className="z-0"
+        scrollWheelZoom={true}
+        dragging={true}
+        doubleClickZoom={true}
+        boxZoom={true}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        {/* Theme-aware tile layer */}
+        <ThemeAwareTileLayer />
         
         {/* Heatmap layers */}
         <HeatmapLayer heatmaps={heatmaps} />
