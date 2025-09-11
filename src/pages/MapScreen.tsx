@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import MapComponent from "@/components/MapComponent.jsx";
 import { 
   MapPin, 
   Shield, 
@@ -15,51 +13,8 @@ import {
   EyeOff
 } from "lucide-react";
 
-// Fix for default markers in react-leaflet
-const DefaultIcon = L.Icon.Default as any;
-delete DefaultIcon.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+// Map tiles and interactivity handled by MapComponent for a Google Maps-like UI
 
-// Component to handle theme-aware tile layer
-const ThemeAwareTileLayer = () => {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    // Check for dark mode
-    const checkDarkMode = () => {
-      setIsDark(document.documentElement.classList.contains('dark'));
-    };
-
-    checkDarkMode();
-
-    // Listen for theme changes
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  if (isDark) {
-    return (
-      <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-      />
-    );
-  }
-
-  return (
-    <TileLayer
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
-  );
-};
 
 const MapScreen = () => {
   const [currentLocation] = useState({ lat: 28.6139, lng: 77.2090 }); // Delhi
@@ -120,59 +75,15 @@ const MapScreen = () => {
 
       {/* Map Container */}
       <div className="relative h-[50vh] mx-6 -mt-4 overflow-hidden" style={{ borderRadius: '16px' }}>
-        <MapContainer
-          center={[currentLocation.lat, currentLocation.lng] as L.LatLngExpression}
-          zoom={14}
-          zoomControl={true}
-          style={{ 
-            height: '100%', 
-            width: '100%', 
-            borderRadius: '16px',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)'
-          }}
-          className="z-0"
-          scrollWheelZoom={true}
-          dragging={true}
-          doubleClickZoom={true}
-          boxZoom={true}
-        >
-          {/* Theme-aware tile layer */}
-          <ThemeAwareTileLayer />
-          
-          {/* Current Location Marker */}
-          <Marker position={[currentLocation.lat, currentLocation.lng]}>
-            <Popup>
-              <div className="text-sm">
-                <strong>Your Current Location</strong><br />
-                Connaught Place, New Delhi
-              </div>
-            </Popup>
-          </Marker>
-          
-          {/* Safe Zone Markers */}
-          {showSafeZones && safeZones.map((zone) => (
-            <Marker key={zone.id} position={[zone.lat, zone.lng]}>
-              <Popup>
-                <div className="text-sm">
-                  <strong className="text-green-600">{zone.name}</strong><br />
-                  Type: Safe Zone ({zone.type})
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-          
-          {/* Restricted Zone Markers */}
-          {showRestrictedZones && restrictedZones.map((zone) => (
-            <Marker key={zone.id} position={[zone.lat, zone.lng]}>
-              <Popup>
-                <div className="text-sm">
-                  <strong className="text-red-600">{zone.name}</strong><br />
-                  Type: Restricted Area ({zone.type})
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
+        <MapComponent
+          latitude={currentLocation.lat}
+          longitude={currentLocation.lng}
+          heatmaps={[
+            ...(showSafeZones ? safeZones.map((z) => ({ lat: z.lat, lng: z.lng, intensity: 0.8, color: "green" })) : []),
+            ...(showRestrictedZones ? restrictedZones.map((z) => ({ lat: z.lat, lng: z.lng, intensity: 0.7, color: "red" })) : []),
+          ]}
+          showMarkers={true}
+        />
         
         {/* Live Tracking Badge */}
         <div className="absolute bottom-4 left-4 z-10">
