@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { 
   MapPin, 
   Shield, 
@@ -11,6 +14,52 @@ import {
   Eye,
   EyeOff
 } from "lucide-react";
+
+// Fix for default markers in react-leaflet
+const DefaultIcon = L.Icon.Default as any;
+delete DefaultIcon.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+// Component to handle theme-aware tile layer
+const ThemeAwareTileLayer = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check for dark mode
+    const checkDarkMode = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  if (isDark) {
+    return (
+      <TileLayer
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+      />
+    );
+  }
+
+  return (
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
+  );
+};
 
 const MapScreen = () => {
   const [currentLocation] = useState({ lat: 28.6139, lng: 77.2090 }); // Delhi
@@ -70,44 +119,63 @@ const MapScreen = () => {
       </div>
 
       {/* Map Container */}
-      <div className="relative h-[50vh] mx-6 -mt-4 travel-card-elevated overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl">
-          {/* Current Location */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="w-6 h-6 bg-primary rounded-full border-4 border-white shadow-ocean animate-glow"></div>
-          </div>
+      <div className="relative h-[50vh] mx-6 -mt-4 overflow-hidden" style={{ borderRadius: '16px' }}>
+        <MapContainer
+          center={[currentLocation.lat, currentLocation.lng] as L.LatLngExpression}
+          zoom={14}
+          zoomControl={true}
+          style={{ 
+            height: '100%', 
+            width: '100%', 
+            borderRadius: '16px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)'
+          }}
+          className="z-0"
+          scrollWheelZoom={true}
+          dragging={true}
+          doubleClickZoom={true}
+          boxZoom={true}
+        >
+          {/* Theme-aware tile layer */}
+          <ThemeAwareTileLayer />
           
-          {/* Safe Zones */}
-          {showSafeZones && safeZones.map((zone, index) => (
-            <div 
-              key={zone.id}
-              className="absolute w-8 h-8 bg-success rounded-full flex items-center justify-center shadow-medium hover-lift cursor-pointer"
-              style={{
-                top: `${30 + index * 15}%`,
-                left: `${40 + index * 10}%`
-              }}
-            >
-              <Shield className="w-4 h-4 text-white" />
-            </div>
+          {/* Current Location Marker */}
+          <Marker position={[currentLocation.lat, currentLocation.lng]}>
+            <Popup>
+              <div className="text-sm">
+                <strong>Your Current Location</strong><br />
+                Connaught Place, New Delhi
+              </div>
+            </Popup>
+          </Marker>
+          
+          {/* Safe Zone Markers */}
+          {showSafeZones && safeZones.map((zone) => (
+            <Marker key={zone.id} position={[zone.lat, zone.lng]}>
+              <Popup>
+                <div className="text-sm">
+                  <strong className="text-green-600">{zone.name}</strong><br />
+                  Type: Safe Zone ({zone.type})
+                </div>
+              </Popup>
+            </Marker>
           ))}
           
-          {/* Restricted Zones */}
-          {showRestrictedZones && restrictedZones.map((zone, index) => (
-            <div 
-              key={zone.id}
-              className="absolute w-8 h-8 bg-destructive rounded-full flex items-center justify-center shadow-medium animate-glow cursor-pointer"
-              style={{
-                top: `${60 + index * 10}%`,
-                left: `${60 + index * 15}%`
-              }}
-            >
-              <AlertTriangle className="w-4 h-4 text-white" />
-            </div>
+          {/* Restricted Zone Markers */}
+          {showRestrictedZones && restrictedZones.map((zone) => (
+            <Marker key={zone.id} position={[zone.lat, zone.lng]}>
+              <Popup>
+                <div className="text-sm">
+                  <strong className="text-red-600">{zone.name}</strong><br />
+                  Type: Restricted Area ({zone.type})
+                </div>
+              </Popup>
+            </Marker>
           ))}
-        </div>
+        </MapContainer>
         
         {/* Live Tracking Badge */}
-        <div className="absolute bottom-4 left-4">
+        <div className="absolute bottom-4 left-4 z-10">
           <div className="bg-success/90 backdrop-blur-sm text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-medium">
             <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
             <span className="text-sm font-semibold">Live Tracking</span>
