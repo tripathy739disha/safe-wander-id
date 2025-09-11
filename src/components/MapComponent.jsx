@@ -216,40 +216,44 @@ const MapComponent = ({
         dragging={true}
         doubleClickZoom={true}
         boxZoom={true}
-      >
-        {/* Theme-aware tile layer */}
-        <ThemeAwareTileLayer />
-        
-        {/* Heatmap layers */}
-        <HeatmapLayer heatmaps={heatmaps} />
-        
-        {/* Routing */}
-        <RoutingControl routeStart={routeStart} routeEnd={routeEnd} />
-        
-        {/* Markers for heatmap points */}
-        {showMarkers && heatmaps.map((point, index) => (
-          <Marker key={index} position={[point.lat, point.lng]}>
-            <Popup>
-              <div className="text-sm">
-                <strong>Point {index + 1}</strong><br />
-                Color: <span className={`font-medium ${point.color === 'green' ? 'text-green-600' : 'text-red-600'}`}>
-                  {point.color}
-                </span><br />
-                Intensity: {point.intensity}
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-        
-        {/* User location marker */}
-        {userLocation && (
-          <Marker position={userLocation}>
-            <Popup>
-              <div className="text-sm">
-                <strong>Your Location</strong>
-              </div>
-            </Popup>
-          </Marker>
+>
+        {() => (
+          <>
+            {/* Theme-aware tile layer */}
+            <ThemeAwareTileLayer />
+            
+            {/* Heatmap layers */}
+            <HeatmapLayer heatmaps={heatmaps} />
+            
+            {/* Routing */}
+            <RoutingControl routeStart={routeStart} routeEnd={routeEnd} />
+            
+            {/* Markers for heatmap points */}
+            {showMarkers && heatmaps.map((point, index) => (
+              <Marker key={index} position={[point.lat, point.lng]}>
+                <Popup>
+                  <div className="text-sm">
+                    <strong>Point {index + 1}</strong><br />
+                    Color: <span className={`font-medium ${point.color === 'green' ? 'text-green-600' : 'text-red-600'}`}>
+                      {point.color}
+                    </span><br />
+                    Intensity: {point.intensity}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+            
+            {/* User location marker */}
+            {userLocation && (
+              <Marker position={userLocation}>
+                <Popup>
+                  <div className="text-sm">
+                    <strong>Your Location</strong>
+                  </div>
+                </Popup>
+              </Marker>
+            )}
+          </>
         )}
       </MapContainer>
     </div>
